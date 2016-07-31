@@ -1,0 +1,64 @@
+#title {
+ height: 70px;
+ color: blue;
+ font-weight: bold;
+ background-color: #B8D0EC;
+ margin-bottom: 1px;
+ border: 1.4px solid #8DBBD6
+}
+
+.errorMessage {
+ border: 1.4px solid #8DBBD6;
+ height: 50px;
+ background-color: white;
+}
+
+.search {
+ border: 1.4px solid #8DBBD6;
+ padding: 7px;
+}
+
+.btnGroup {
+ height: 60px;
+}
+
+.btna {
+ background-color: #C1DCF0;
+ color: blue;
+ border: 1.4px solid #8DBBD6
+}
+
+#page {
+ height: 44px;
+ background: #56B9DA;
+ background: linear-gradient(#56B9DA,#0E66B0);
+ background: -moz-linear-gradient(#56B9DA,#0E66B0);
+ background: -webkit-linear-gradient(#56B9DA,#0E66B0);
+ background: -o-gradient(#56B9DA,#0E66B0);
+}
+
+#my-table td, thead, th {
+ border: 1.4px solid #8DBBD6;
+}
+#my-table {
+ margin-bottom: 0px;
+}
+#my-table tr:nth-child(even) {
+ background-color: #E1EFFC;
+}
+#my-table tr:nth-child(odd) {
+ background-color: white;
+}
+#div-background {
+ background-color: #C4D6EA;
+ padding: 3px;
+}
+input {
+ border: 2px solid #8DBBD6;
+}
+th{
+ color: white;
+}
+.error {
+	background-color: red !important;
+}
