@@ -1,5 +1,18 @@
 package model.bean;
-
+/**
+ * Studio.java
+ *
+ * Version 1.0
+ *
+ * Date: 29/07/2016
+ *
+ * Copyright 
+ *
+ * Modification Logs:
+ * DATE                 AUTHOR          DESCRIPTION
+ * -----------------------------------------------------------------------
+ * 29/07/2016       	NguyetNT6       Create
+ */
 public class Studio {
 	private String sysfiKey;
 	private String sysfiData;

@@ -8,6 +8,20 @@ import org.json.simple.JSONObject;
 import model.bean.Studio;
 import model.dao.ListUpdateStudioDAO;
 
+/**
+ * ListUpdateStudioBO.java
+ *
+ * Version 1.0
+ *
+ * Date: 29/07/2016
+ *
+ * Copyright 
+ *
+ * Modification Logs:
+ * DATE                 AUTHOR          DESCRIPTION
+ * -----------------------------------------------------------------------
+ * 29/07/2016       	NguyetNT6       Create
+ */
 public class ListUpdateStudioBO {
 
 	private ListUpdateStudioDAO listUpdateStudioDAO;

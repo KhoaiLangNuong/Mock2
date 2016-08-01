@@ -18,6 +18,19 @@ import form.StudioForm;
 import model.bean.Studio;
 import model.bo.StudioBO;
 
+/**
+ * EventAddListStudioAction.java
+ *
+ * Version 1.0
+ *
+ * Date: 29-07-2016
+ *
+ * Copyright
+ *
+ * Modification Logs: DATE AUTHOR DESCRIPTION
+ * -----------------------------------------------------------------------
+ * 29-07-2016 NguyetNT6 Create
+ */
 public class EventAddListStudioAction extends Action {
 	@Override
 	public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request,
@@ -36,7 +49,7 @@ public class EventAddListStudioAction extends Action {
 		String submit= StringProcess.toUTF8(studioForm.getSubmit());
 		if("登録(U)".equals(submit)){
 			for (int i = 0; i < listKey.length; i++) {
-				if(!"".equals(listKey[i]) && !"".equals(listData[i])){
+				if(!"".equals(listKey[i]) || !"".equals(listData[i])){
 					studio = new Studio();
 					studio.setSysfiKey(listKey[i]);
 					studio.setSysfiData(StringProcess.toUTF8(listData[i]));
@@ -58,9 +71,9 @@ public class EventAddListStudioAction extends Action {
 			}
 			else {
 				for(int i=0; i<listKey.length; i++){
-					if(!"".equals(listKey[i]) && !"".equals(listData[i])){
+					if(!"".equals(listKey[i]) || !"".equals(listData[i])){
 						listKey[i]=StringProcess.toUTF8(listKey[i]);
-						listData[i]=StringProcess.toUTF8(listData[i]);
+						listData[i]=StringProcess.toUTF8(listData[i].trim());
 					}
 					else {
 						listKey[i]="";
@@ -79,6 +92,7 @@ public class EventAddListStudioAction extends Action {
 	public JSONObject checkValidate(ArrayList<Studio> listStudio){
 		JSONArray jsonArrayResponse = new JSONArray();
 		boolean checkValid;
+		StudioBO studioBO= new StudioBO();
 		for(int i=0; i<listStudio.size(); i++){
 			checkValid=true;
 			JSONObject jsonObject= new JSONObject();
@@ -94,14 +108,36 @@ public class EventAddListStudioAction extends Action {
 				checkValid=false;
 				jsonObject.put("message","メーカー・コード : 全体のスペースを入力しないでください");
 			}
+			if(Validations.validateNull(listStudio.get(i).getSysfiKey())){
+				checkValid=false;
+				jsonObject.put("message","メーカー・コード : null");
+			}
+			if(studioBO.checkKeyExist(listStudio.get(i).getSysfiKey())){
+				checkValid= false;
+				jsonObject.put("message", "Key Exist");
+			}
 			//check valid sysfi_data
 			if(!Validations.validLength(listStudio.get(i).getSysfiData(),10)){
 				checkValid=false;
-				jsonObject.put("message",jsonObject.get("message").toString()+ " メーカー名 : 長さが無効です <=10 ");
+				if("".equals(jsonObject.get("message").toString())){
+					jsonObject.put("message","メーカー名 : 長さが無効です <=10 ");
+				}
+				else{
+					jsonObject.put("message",jsonObject.get("message").toString()+ ", メーカー名 : 長さが無効です <=10 ");
+				}
+				
 			}
-			if(Validations.validateSpace(listStudio.get(i).getSysfiData())){
+			if(listStudio.get(i).getSysfiData().length()>0 && Validations.validateSpace(listStudio.get(i).getSysfiData())){
 				checkValid=false;
-				jsonObject.put("message",jsonObject.get("message").toString()+ " メーカー名 : 全体のスペースを入力しないでください");
+				if("".equals(jsonObject.get("message").toString())){
+					jsonObject.put("message",jsonObject.get("message").toString()+ ", メーカー名 : 全体のスペースを入力しないでください");
+				}
+				else{
+					jsonObject.put("message",jsonObject.get("message").toString()+ ", メーカー名 : 全体のスペースを入力しないでください");
+				}				
+			}
+			else {
+				listStudio.get(i).setSysfiData(listStudio.get(i).getSysfiData());
 			}
 			if(!checkValid){
 				jsonObject.put("validate","false");

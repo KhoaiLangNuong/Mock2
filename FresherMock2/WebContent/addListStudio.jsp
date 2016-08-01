@@ -76,8 +76,14 @@
 				</div>
   
 			</div>
-			<div class="col-lg-12 errorMessage">
-				<h5 id="showErrorMessage" style="color:red">エラーメッセージ</h5>
+			<div class="col-lg-12 errorMessage" style="padding-top: 15px; ">
+			<div class="row t-err" id="message-err">
+					<p>
+						<img src="img/alert.png"
+							style="position: relative; width: 15px; height: 15px; top: -2px;" >
+						<span id="showErrorMessage"></span>
+					</p>
+				</div>
 			</div>
 			<html:form action="/add-list-studio" method="post">
 			<table class="table" id="my-table">

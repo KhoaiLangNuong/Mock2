@@ -21,6 +21,20 @@ import form.ListUpdateStudioForm;
 import model.bean.Studio;
 import model.bo.ListUpdateStudioBO;
 
+/**
+ * EventUpdateListStudioAction.java
+ *
+ * Version 1.0
+ *
+ * Date: 29/07/2016
+ *
+ * Copyright 
+ *
+ * Modification Logs:
+ * DATE                 AUTHOR          DESCRIPTION
+ * -----------------------------------------------------------------------
+ * 29/07/2016       	NguyetNT6         Create
+ */
 public class EventUpdateListStudioAction extends Action{
 	
 	@SuppressWarnings("unchecked")
@@ -36,13 +50,19 @@ public class EventUpdateListStudioAction extends Action{
 		ArrayList<Studio> listStudio;
 		String contenSearch = updateForm.getContentSearch();
 		System.out.println("currentpaaaaaaaaaaaage"+updateForm.getCurrentPage());
+		
+		//khi bấm bút tìm kiếm
 		if("検索(S)".equals(StringProcess.toUTF8(updateForm.getSubmit()))){
 			System.out.println(StringProcess.toUTF8(updateForm.getSubmit()));
+			
+			//nếu không nhập nội dung tìm kiếm 
 			if (contenSearch == null || contenSearch.length() == 0 ){
 				updateForm.setContentSearch(contenSearch);
 				listStudio=updateStudioBO.getListStudio();
 				updateForm.setListStudio(listStudio);
 			}
+			
+			//tìm kiếm theo nội dung
 			else{
 				updateForm.setContentSearch(contenSearch);
 				listStudio=updateStudioBO.search(contenSearch);
@@ -52,10 +72,12 @@ public class EventUpdateListStudioAction extends Action{
 		else{
 			listStudio=updateStudioBO.getListStudio();
 		}
+		
+		//khi bấm vào nút update
 		if("update".equals(updateForm.getSubmit())){
-			String dataUpdate=updateForm.getDataUpdate();
+			String dataUpdate = updateForm.getDataUpdate();
 			JSONParser jsonParser = new JSONParser();
-			JSONArray jsonArray=(JSONArray)jsonParser.parse(dataUpdate);
+			JSONArray jsonArray = (JSONArray)jsonParser.parse(dataUpdate);
 			ArrayList<Studio> listStudioUpdate= updateStudioBO.parseJsonToListStudio(jsonArray);
 			JSONObject jsonObjectError = checkValidate(listStudioUpdate);
 			String validate=jsonObjectError.get("validate").toString();
@@ -116,22 +138,19 @@ public class EventUpdateListStudioAction extends Action{
 			//check valid sysfi_key
 			//check valid length
 			jsonObject.put("message", "");
-			if(!Validations.validLength(listStudio.get(i).getSysfiKey(), 2)){
-				checkValid=false;
-				jsonObject.put("message","メーカー・コード : 長さが無効です <=2");
-			}
-			if(Validations.validateSpace(listStudio.get(i).getSysfiKey())){
-				checkValid=false;
-				jsonObject.put("message","メーカー・コード : 全体のスペースを入力しないでください");
-			}
 			//check valid sysfi_data
 			if(!Validations.validLength(listStudio.get(i).getSysfiData(),10)){
 				checkValid=false;
 				jsonObject.put("message",jsonObject.get("message").toString()+ " メーカー名 : 長さが無効です <=10 ");
+				jsonObject.put("error_type", "length");
 			}
-			if(Validations.validateSpace(listStudio.get(i).getSysfiData())){
+			if(listStudio.get(i).getSysfiData().length()>0 && Validations.validateSpace(listStudio.get(i).getSysfiData())){
 				checkValid=false;
 				jsonObject.put("message",jsonObject.get("message").toString()+ " メーカー名 : 全体のスペースを入力しないでください");
+				jsonObject.put("error_type", "space");
+			}
+			else {
+				listStudio.get(i).setSysfiData(listStudio.get(i).getSysfiData().trim());
 			}
 			if(!checkValid){
 				jsonObject.put("validate","false");

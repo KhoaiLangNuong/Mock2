@@ -1,6 +1,7 @@
 package model.dao;
 
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
@@ -8,6 +9,20 @@ import common.ProgramException;
 import common.SystemException;
 import model.bean.Studio;
 
+/**
+ * StudioDAO.java
+ *
+ * Version 1.0
+ *
+ * Date: 29/07/2016
+ *
+ * Copyright 
+ *
+ * Modification Logs:
+ * DATE                 AUTHOR          DESCRIPTION
+ * -----------------------------------------------------------------------
+ * 29/07/2016       	NguyetNT6       Create
+ */
 public class StudioDAO extends ConnectDAO {
 
 	public boolean signUp(ArrayList<Studio> listStudio) throws SystemException, ProgramException {
@@ -37,6 +52,20 @@ public class StudioDAO extends ConnectDAO {
 		}
 	}
 
-
-
+	public boolean checkKeyExist(String sysfiKey) {
+		try {
+			openConnection();
+			String sql = "SELECT SYSFI_KEY,SYSFI_DATA FROM AUTSYSFI WHERE SYSFI_KEY = ?";
+			PreparedStatement pstmt = getPreparedStatement(sql);
+			pstmt.setString(1, sysfiKey);
+			ResultSet rs = pstmt.executeQuery();
+			return rs.next();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		finally {
+			closeConnection();
+		}
+		return false;
+	}
 }

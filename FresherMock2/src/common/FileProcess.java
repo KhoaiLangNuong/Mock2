@@ -15,13 +15,13 @@ import model.bean.Studio;
  *
  * Version 1.0
  *
- * Date: 19-07-2016
+ * Date: 29-07-2016
  *
  * Copyright
  *
  * Modification Logs: DATE AUTHOR DESCRIPTION
  * -----------------------------------------------------------------------
- * 19-07-2016 NguyetNT6 Create
+ * 29-07-2016 NguyetNT6 Create
  */
 public class FileProcess {
 

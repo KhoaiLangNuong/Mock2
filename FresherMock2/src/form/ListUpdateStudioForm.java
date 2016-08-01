@@ -6,6 +6,20 @@ import org.apache.struts.action.ActionForm;
 
 import model.bean.Studio;
 
+/**
+ * ListUpdateStudioForm.java
+ *
+ * Version 1.0
+ *
+ * Date: 29/07/2016
+ *
+ * Copyright 
+ *
+ * Modification Logs:
+ * DATE                 AUTHOR          DESCRIPTION
+ * -----------------------------------------------------------------------
+ * 29/07/2016       	NguyetNT6       Create
+ */
 @SuppressWarnings("serial")
 public class ListUpdateStudioForm extends ActionForm {
 

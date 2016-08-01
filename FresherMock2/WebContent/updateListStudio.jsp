@@ -31,6 +31,7 @@
 <script type="text/javascript" src="js/bussiness.t.js"></script>
 <script type="text/javascript">
 	 $(document).ready(function() {
+		$("#message-err").fadeOut();
 		$("#update").on("click", function() {
 			var action = $(".action");
 			var sysfi_key = $(".sysfi_key");
@@ -68,6 +69,12 @@
 									$(trs[j]).removeClass("error");
 								}
 								$(trs[i+1]).addClass("error");
+								var input=$(trs[i+1]).find("input");
+								var error_type=jsonObjectError.error_type;
+								console.log("error_type"+error_type);
+								if("space"==error_type){
+									$(input[2]).val("");
+								}
 								break;
 							}
 						}
@@ -118,8 +125,8 @@
 				</div>
 			</div>
 			<html:form action="/update-list-studio.do" method="post">
-			<div class="col-lg-12 errorMessage">
-				<div class="row t-err" id="message-err">
+			<div class="col-lg-12 errorMessage" style="padding-top: 15px; ">
+				<div class="row t-err" id="message-err" >
 					<p>
 						<img src="img/alert.png"
 							style="position: relative; width: 15px; height: 15px; top: -2px;" >
@@ -136,7 +143,7 @@
 			<div class="col-lg-12 btnGroup ">
 				<div class="pull-right" style="margin-top: 15px;">
 					<html:submit property="submit" styleClass="btna">検索(S)</html:submit>
-					<input type="button" value="キャンセル( C )" class="btna">
+					<a href="screenBack.jsp"><input type="button" value="キャンセル( C )" class="btna"></a>
 					<html:link action="/add-list-studio.do"><input type="button" class="btna" value="新規登録(N)"></html:link>
 				</div>
 			</div>

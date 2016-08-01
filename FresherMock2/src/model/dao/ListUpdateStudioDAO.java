@@ -5,6 +5,20 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 import model.bean.Studio;
 
+/**
+ * ListUpdateStudioDAO.java
+ *
+ * Version 1.0
+ *
+ * Date: 29/07/2016
+ *
+ * Copyright 
+ *
+ * Modification Logs:
+ * DATE                 AUTHOR          DESCRIPTION
+ * -----------------------------------------------------------------------
+ * 29/07/2016       	NguyetNT6       Create
+ */
 public class ListUpdateStudioDAO extends ConnectDAO {
 
 	public ArrayList<Studio> getListStudio() {

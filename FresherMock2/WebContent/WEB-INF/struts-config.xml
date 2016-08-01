@@ -15,7 +15,7 @@ Configuration 1.3//EN" "http://struts.apache.org/dtds/struts-config_1_3.dtd">
 		</action>
 			<action path="/add-list-studio" name="studioForm"
 			scope="request" type="action.EventAddListStudioAction">
-			<forward name="addOK" path="/update-list-studio"></forward>
+			<forward name="addOK" path="/update-list-studio.do"></forward>
 			<forward name="addError" path="/addListStudio.jsp"></forward>
 		</action>
 	</action-mappings>
