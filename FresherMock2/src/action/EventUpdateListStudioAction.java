@@ -28,141 +28,164 @@ import model.bo.ListUpdateStudioBO;
  *
  * Date: 29/07/2016
  *
- * Copyright 
+ * Copyright
  *
- * Modification Logs:
- * DATE                 AUTHOR          DESCRIPTION
+ * Modification Logs: DATE AUTHOR DESCRIPTION
  * -----------------------------------------------------------------------
- * 29/07/2016       	NguyetNT6         Create
+ * 29/07/2016 NguyetNT6 Create
  */
-public class EventUpdateListStudioAction extends Action{
-	
+public class EventUpdateListStudioAction extends Action {
+
 	@SuppressWarnings("unchecked")
 	@Override
 	public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request,
 			HttpServletResponse response) throws Exception {
 		request.setCharacterEncoding("utf-8");
 		response.setCharacterEncoding("utf-8");
-		ListUpdateStudioForm updateForm=(ListUpdateStudioForm)form;
-		ListUpdateStudioBO updateStudioBO= new ListUpdateStudioBO();
-		int totalRecord=5;
-		int currentPage=1;
+		ListUpdateStudioForm updateForm = (ListUpdateStudioForm) form;
+		ListUpdateStudioBO updateStudioBO = new ListUpdateStudioBO();
+		int totalRecord = 5;
+		int currentPage = 1;
 		ArrayList<Studio> listStudio;
 		String contenSearch = updateForm.getContentSearch();
-		System.out.println("currentpaaaaaaaaaaaage"+updateForm.getCurrentPage());
-		
-		//khi bấm bút tìm kiếm
-		if("検索(S)".equals(StringProcess.toUTF8(updateForm.getSubmit()))){
+		System.out.println("currentpaaaaaaaaaaaage" + updateForm.getCurrentPage());
+
+		// click button search
+		if ("検索(S)".equals(StringProcess.toUTF8(updateForm.getSubmit()))) {
 			System.out.println(StringProcess.toUTF8(updateForm.getSubmit()));
-			
-			//nếu không nhập nội dung tìm kiếm 
-			if (contenSearch == null || contenSearch.length() == 0 ){
+
+			// no input
+			if (contenSearch == null || contenSearch.length() == 0) {
 				updateForm.setContentSearch(contenSearch);
-				listStudio=updateStudioBO.getListStudio();
+				listStudio = updateStudioBO.getListStudio();
 				updateForm.setListStudio(listStudio);
 			}
-			
-			//tìm kiếm theo nội dung
-			else{
+
+			// search with contentSearch
+			else {
 				updateForm.setContentSearch(contenSearch);
-				listStudio=updateStudioBO.search(contenSearch);
+				listStudio = updateStudioBO.search(contenSearch);
 				updateForm.setListStudio(listStudio);
 			}
+		} else {
+			listStudio = updateStudioBO.getListStudio();
 		}
-		else{
-			listStudio=updateStudioBO.getListStudio();
-		}
-		
-		//khi bấm vào nút update
-		if("update".equals(updateForm.getSubmit())){
+
+		// click button update
+		if ("update".equals(updateForm.getSubmit())) {
 			String dataUpdate = updateForm.getDataUpdate();
 			JSONParser jsonParser = new JSONParser();
-			JSONArray jsonArray = (JSONArray)jsonParser.parse(dataUpdate);
-			ArrayList<Studio> listStudioUpdate= updateStudioBO.parseJsonToListStudio(jsonArray);
+			JSONArray jsonArray = (JSONArray) jsonParser.parse(dataUpdate);
+			ArrayList<Studio> listStudioUpdate = updateStudioBO.parseJsonToListStudio(jsonArray);
 			JSONObject jsonObjectError = checkValidate(listStudioUpdate);
-			String validate=jsonObjectError.get("validate").toString();
-			PrintWriter writer=response.getWriter();
-			System.out.println("validate"+validate);
-			if("true".equals(validate)){
-				JSONObject dataResponse= new JSONObject();
-				if(updateStudioBO.updateData(listStudioUpdate) && updateStudioBO.deleteData(listStudioUpdate)){
+			String validate = jsonObjectError.get("validate").toString();
+			PrintWriter writer = response.getWriter();
+			System.out.println("validate" + validate);
+
+			// if validate true : update or delete list studio
+			if ("true".equals(validate)) {
+				JSONObject dataResponse = new JSONObject();
+				if (updateStudioBO.updateData(listStudioUpdate) && updateStudioBO.deleteData(listStudioUpdate)) {
 					dataResponse.put("result", "success");
-				}
-				else {
+				} else {
 					System.out.println("failed");
 					dataResponse.put("result", "failed");
 				}
 				writer.println(dataResponse.toString());
 				return null;
-			}
-			else {
-				jsonObjectError.put("result","failed_validate");
+			} else {
+				jsonObjectError.put("result", "failed_validate");
 				writer.println(jsonObjectError.toString());
 				return null;
 			}
 		}
-		if("表示".equals(StringProcess.toUTF8(updateForm.getSubmit()))){
-			totalRecord=updateForm.getTotalRecord();
-			if(totalRecord==-1){
-				totalRecord= listStudio.size();
-			}
-			System.out.println("totalRecorddddddddd"+totalRecord);
+		if ("表示".equals(StringProcess.toUTF8(updateForm.getSubmit()))) {
+			totalRecord = updateForm.getTotalRecord();
+			System.out.println("totalRecorddddddddd" + totalRecord);
 		}
-		if("エクスポート(E)".equals(StringProcess.toUTF8(updateForm.getSubmit()))){
+
+		// // click export file exel
+		// if ("エクスポート(E)".equals(StringProcess.toUTF8(updateForm.getSubmit())))
+		// {
+		// FileProcess.exportFileExecl(listStudio, "D:/write_test.xls");
+		// }
+		// exel
+		if ("エクスポート(E)".equals(StringProcess.toUTF8(updateForm.getSubmit()))) {
+			totalRecord = updateForm.getTotalRecord();
+			if (totalRecord > listStudio.size()) {
+				totalRecord = listStudio.size();
+			}
+			currentPage = updateForm.getCurrentPage();
+			listStudio = updateStudioBO.getListStudioAtPage(listStudio, currentPage, totalRecord);
 			FileProcess.exportFileExecl(listStudio, "D:/write_test.xls");
 		}
-		if("表示".equals(StringProcess.toUTF8(updateForm.getSubmitNumberPager()))){
-			System.out.println("submit number page"+updateForm.getCurrentPage());
-			currentPage=updateForm.getCurrentPage();
+
+		// click button 表示
+		if ("表示".equals(StringProcess.toUTF8(updateForm.getSubmitNumberPager()))) {
+			System.out.println("submit number page" + updateForm.getCurrentPage());
+			currentPage = updateForm.getCurrentPage();
+			totalRecord=updateForm.getTotalRecord();
 		}
-		
-		if(totalRecord>listStudio.size()){
-			totalRecord=listStudio.size();
+
+		if (totalRecord > listStudio.size()) {
+			totalRecord = listStudio.size();
 		}
-		int totalPage= updateStudioBO.getTotalPage(listStudio,totalRecord);
-		listStudio=updateStudioBO.getListStudioAtPage(listStudio, currentPage,totalRecord);
+		int totalPage = updateStudioBO.getTotalPage(listStudio, totalRecord);
+		listStudio = updateStudioBO.getListStudioAtPage(listStudio, currentPage, totalRecord);
 		updateForm.setCurrentPage(currentPage);
 		updateForm.setListStudio(listStudio);
 		updateForm.setTotalPage(totalPage);
+		updateForm.setTotalRecordDatabase(updateStudioBO.getListStudio().size());
 		return mapping.findForward("updateOK");
-		
 	}
+
+	// check validata
 	@SuppressWarnings("unchecked")
-	public JSONObject checkValidate(ArrayList<Studio> listStudio){
+	public JSONObject checkValidate(ArrayList<Studio> listStudio) {
 		JSONArray jsonArrayResponse = new JSONArray();
 		boolean checkValid;
-		for(int i=0; i<listStudio.size(); i++){
-			checkValid=true;
-			JSONObject jsonObject= new JSONObject();
-			jsonObject.put("id",""+i);
-			//check valid sysfi_key
-			//check valid length
+		for (int i = 0; i < listStudio.size(); i++) {
+			checkValid = true;
+			JSONObject jsonObject = new JSONObject();
+			jsonObject.put("id", "" + i);
 			jsonObject.put("message", "");
-			//check valid sysfi_data
-			if(!Validations.validLength(listStudio.get(i).getSysfiData(),10)){
-				checkValid=false;
-				jsonObject.put("message",jsonObject.get("message").toString()+ " メーカー名 : 長さが無効です <=10 ");
+
+			// check valid for メーカー名
+			// check valid contain special character
+			if (Validations.containsSpecialCharacter(listStudio.get(i).getSysfiData())) {
+				checkValid = false;
+				jsonObject.put("message", " メーカー名 : 特殊文字を入力しません");
+			}
+
+			// valid max length
+			if (!Validations.validLength(listStudio.get(i).getSysfiData(), 10)) {
+				checkValid = false;
+				jsonObject.put("message", jsonObject.get("message").toString() + " メーカー名 : 長さが無効です <=10 ");
 				jsonObject.put("error_type", "length");
 			}
-			if(listStudio.get(i).getSysfiData().length()>0 && Validations.validateSpace(listStudio.get(i).getSysfiData())){
-				checkValid=false;
-				jsonObject.put("message",jsonObject.get("message").toString()+ " メーカー名 : 全体のスペースを入力しないでください");
+
+			// valid space
+			if (listStudio.get(i).getSysfiData().length() > 0
+					&& Validations.validateSpace(listStudio.get(i).getSysfiData())) {
+				checkValid = false;
+				jsonObject.put("message", jsonObject.get("message").toString() + " メーカー名 : 全体のスペースを入力しないでください");
 				jsonObject.put("error_type", "space");
-			}
-			else {
+			} else {
 				listStudio.get(i).setSysfiData(listStudio.get(i).getSysfiData().trim());
 			}
-			if(!checkValid){
-				jsonObject.put("validate","false");
-			}else {
-				jsonObject.put("validate","true");
+
+			// validate true or false
+			if (!checkValid) {
+				jsonObject.put("validate", "false");
+			} else {
+				jsonObject.put("validate", "true");
 			}
 			jsonArrayResponse.add(jsonObject);
 		}
-		JSONObject jsonObjectResponse= new JSONObject();
+		JSONObject jsonObjectResponse = new JSONObject();
 		jsonObjectResponse.put("jsonArray", jsonArrayResponse);
-		for(int i=0; i<jsonArrayResponse.size(); i++){
-			if("false".equals(((JSONObject)jsonArrayResponse.get(i)).get("validate").toString())){
+		for (int i = 0; i < jsonArrayResponse.size(); i++) {
+			if ("false".equals(((JSONObject) jsonArrayResponse.get(i)).get("validate").toString())) {
 				jsonObjectResponse.put("validate", "false");
 				return jsonObjectResponse;
 			}
@@ -170,5 +193,5 @@ public class EventUpdateListStudioAction extends Action{
 		jsonObjectResponse.put("validate", "true");
 		return jsonObjectResponse;
 	}
-	
+
 }

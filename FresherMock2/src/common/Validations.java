@@ -1,5 +1,11 @@
 package common;
 
+import java.util.ArrayList;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+import model.bean.Studio;
+
 /**
  * StringProcess.java
  *
@@ -52,4 +58,36 @@ public class Validations {
 			return true;
 		return false;
 	}
+	
+	/**
+	 * validate contain special
+	 * @param s
+	 * @return true/false
+	 */
+		public static boolean containsSpecialCharacter(String s) {
+			Pattern regex = Pattern.compile("[!%*$&+:;=?@#|]");
+			Matcher matcher = regex.matcher(s);
+			if (matcher.find()) {
+				return true;
+			}
+			return false;
+		}
+		
+		/**
+		 * validate key
+		 * @param key1
+		 * @param listStudio
+		 * @param index
+		 * @return
+		 */
+		public static boolean validateKey(String key1,
+				ArrayList<Studio> listStudio, int index) {
+			int i;
+			for(i=0; i<listStudio.size(); i++){
+				if (i!=index && key1.equals(listStudio.get(i).getSysfiKey()))
+					return true;
+			}
+			return false;
+		}
+
 }

@@ -45,6 +45,7 @@
 						$("#showErrorMessage").html(jsonObjectErrorChild.message);
 						var trs=$("#my-table tr");
 						$(trs[i+1]).addClass("error");
+						$(".errorMessage").css({ display: "block" });
 						break;
 					}
 				}
@@ -59,6 +60,15 @@
 	}
 	
 </script>
+<script type="text/javascript">
+$(document).ready(function(){
+	var date = new Date();
+	document.getElementById('yearID').innerHTML = date.getFullYear();
+	document.getElementById('monthID').innerHTML = date.getMonth() + 1;
+	document.getElementById('dayID').innerHTML = date.getDay();
+	$('#searchID').focus();
+});
+</script>
 </head>
 <body>
 	<div class="container">
@@ -71,12 +81,12 @@
 				<div class="col-lg-3">
 					<h4 style="font-weight: bold;">メーカー名マスタ登録</h4>
 				</div>
-				<div class="pull-right">
-					<h4>YYYY年MM月DD日</h4>
+				<div class="pull-right" style="margin-top: 10px;">
+					 <strong id="yearID"></strong> 年 <strong id="monthID"></strong> 月 <strong id="dayID"></strong> 日
 				</div>
   
 			</div>
-			<div class="col-lg-12 errorMessage" style="padding-top: 15px; ">
+			<div class="col-lg-12 errorMessage" style="padding-top: 15px; display: none;">
 			<div class="row t-err" id="message-err">
 					<p>
 						<img src="img/alert.png"
@@ -175,7 +185,8 @@
 			<div class="col-lg-12 btnGroup">
 				<div class="pull-right" style="margin-top: 15px;">
 					<html:submit styleClass="btna" property="submit" value="登録(U)"></html:submit>
-					<html:button styleClass="btna" property="submit" value="クリアー(C)" onclick="clearData()"></html:button>
+					<html:link action="/add-list-studio.do">
+									<input class="btna" type="button" value="クリアー(C)"> </html:link>
 					<html:link action="/update-list-studio.do">
 									<input class="btna" type="button" value="キャンセル(K)"> </html:link>
 				</div>

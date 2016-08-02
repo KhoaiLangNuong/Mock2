@@ -31,8 +31,8 @@ public class FileProcess {
 			File exlFile= new File(filePath);
 			WritableWorkbook writableWorkBook = Workbook.createWorkbook(exlFile);
 			WritableSheet writableSheet = writableWorkBook.createSheet("Sheet1", 0);
-			Label columName1= new Label(0, 0,"SYSFI_KEY");
-			Label columName2= new Label(1, 0,"SYSFI_DATA");
+			Label columName1= new Label(0, 0,"メーカー・コード");
+			Label columName2= new Label(1, 0,"メーカー名");
 			writableSheet.addCell(columName1);
 			writableSheet.addCell(columName2);
 			Label cellKey;

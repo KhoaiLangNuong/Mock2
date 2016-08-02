@@ -51,7 +51,7 @@
 				url : "update-list-studio.do",
 				data : "submit=update&dataUpdate=" + myJSON,
 				dataType : "json",
-				success : function(response) {
+				success :  function(response) {
 					var result = response.result;
 					$("#message").html(result);
 					if ("success" == result) {
@@ -69,6 +69,7 @@
 									$(trs[j]).removeClass("error");
 								}
 								$(trs[i+1]).addClass("error");
+								$(".errorMessage").css({ display: "block" });
 								var input=$(trs[i+1]).find("input");
 								var error_type=jsonObjectError.error_type;
 								console.log("error_type"+error_type);
@@ -108,6 +109,24 @@
 	});
 
 </script>
+<script type="text/javascript">
+    function submitExport(){
+    var totalRecord= $("#totalRecord").val();
+    var currentPage=$("#inputCurrentPage").val();
+    $("#totalRecordHidden").val(totalRecord);
+    $("#currentPageHidden").val(currentPage); 
+    confirm('あなたがいないデータをExcelにエクスポートしますか');
+}
+</script>
+<script type="text/javascript">
+$(document).ready(function(){
+	var date = new Date();
+	document.getElementById('yearID').innerHTML = date.getFullYear();
+	document.getElementById('monthID').innerHTML = date.getMonth() + 1;
+	document.getElementById('dayID').innerHTML = date.getDay();
+	$('#searchID').focus();
+});
+</script>
 </head>
 <body>
 	<div class="container">
@@ -120,12 +139,12 @@
 				<div class="col-lg-3">
 					<h4 style="font-weight: bold;">メーカー名マスタ更新</h4>
 				</div>
-				<div class="pull-right">
-					<h4>2016年07月29日</h4>
+				<div class="pull-right" style="margin-top: 10px;">
+					 <strong id="yearID"></strong> 年 <strong id="monthID"></strong> 月 <strong id="dayID"></strong> 日
 				</div>
 			</div>
 			<html:form action="/update-list-studio.do" method="post">
-			<div class="col-lg-12 errorMessage" style="padding-top: 15px; ">
+			<div class="col-lg-12 errorMessage" style="padding-top: 15px; display: none;">
 				<div class="row t-err" id="message-err" >
 					<p>
 						<img src="img/alert.png"
@@ -168,7 +187,7 @@
 								<logic:notEqual value="1" name="currentPage">
 									<img id="btn-prev" alt="anh" src="pictures/right.png" height="25px" width="25px" style="margin-right: -7px; cursor: pointer;margin-top: 1px;">
 								</logic:notEqual>
-								<logic:equal value="${ totalPage}" name="currentPage">
+								<logic:equal value="${ totalPage}" name="currentPage" >
 									<img id="btn-next" alt="anh" src="pictures/lefthidden.png" height="25px" width="25px" style="cursor: not-allowed">
 								</logic:equal> 
 								<logic:notEqual value="${ totalPage}" name="currentPage">
@@ -180,10 +199,11 @@
 									style="margin-left:20px;">表示</html:submit>
 								<label for="label-center1"
 									style="color: white; margin-left: 20px;"> 表示件数 </label>
-								<html:select property="totalRecord" style="margin-left:20px;">
+								<bean:define id="totalRecordDatabase" property="totalRecordDatabase" name="listUpdateStudioForm"></bean:define>
+								<html:select styleId="totalRecord" property="totalRecord" style="margin-left:20px;">
 									<html:option value="5">5</html:option>
 									<html:option value="10">10</html:option>
-									<html:option value="-1">All</html:option>
+									<html:option value="${totalRecordDatabase }">All</html:option>
 								</html:select>
 								<html:submit property="submit" styleClass="btna"
 									style="margin-left:20px">表示</html:submit>
@@ -210,17 +230,23 @@
 									name="studio" readonly="true" style="width:50px; cursor:not-allowed ;background-color : #ddd" ></html:text></td>
 							<td><html:text styleClass="sysfi_data" property="sysfiData"
 									name="studio"></html:text></td>
+									
 						</tr>
 					</logic:iterate>
 				</tbody>
 			</table>
+				<logic:empty property="listStudio" name="listUpdateStudioForm">
+		   <h5 style="text-align: center;">検索データが見つかりません</h5>
+		</logic:empty>
 			<html:form action="/update-list-studio.do" >
+			<html:hidden property="totalRecord" styleId="totalRecordHidden" ></html:hidden>
+			<html:hidden property="currentPage" styleId="currentPageHidden"></html:hidden> 
 				<div class="col-lg-12 btnGroup" style="height: 120px;">
 					<div class="col-lg-2" style="margin-top: 15px;">区：(C.変更 D.削除)</div>
 					<div class="pull-right" style="margin-top: 15px;">
 						<input id="update" type="button" value="更新(U)" class="btna">
 						<html:link action="/update-list-studio.do"><input type="button" value="クリアー(R)" class="btna"></html:link> 
-						<html:submit styleClass="btna" property="submit" onclick="confirm('あなたがいないデータをExcelにエクスポートしますか')">エクスポート(E)</html:submit>	
+						<html:submit styleClass="btna" property="submit" onclick="submitExport()">エクスポート(E)</html:submit>	
 					</div>
 				</div>
 			</html:form>

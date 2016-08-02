@@ -30,7 +30,7 @@ public class ListUpdateStudioBO {
 	}
 	public ArrayList<Studio> getListStudioAtPage(ArrayList<Studio> listStudio, int currentPage, int totalRecord) {
 		ArrayList<Studio> listStudioAtPage= new ArrayList<Studio>();
-		int length=0;
+		int length = 0;
 		int totalPage=getTotalPage(listStudio,totalRecord);
 		if(listStudio.size()==0){
 			return listStudioAtPage;
@@ -46,7 +46,10 @@ public class ListUpdateStudioBO {
 				length=(currentPage-1)*totalRecord+listStudio.size()%totalRecord;
 			}
 		}
-		
+		System.out.println("totalPage "+totalPage );
+		System.out.println("totalRecord "+totalRecord);
+		System.out.println("currentPage "+currentPage);
+		System.out.println("length "+length);
 		for(int i=(currentPage-1)*totalRecord; i<length; i++){
 			listStudioAtPage.add(listStudio.get(i));
 		}

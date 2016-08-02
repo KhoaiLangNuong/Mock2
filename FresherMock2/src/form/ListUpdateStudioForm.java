@@ -23,6 +23,7 @@ import model.bean.Studio;
 @SuppressWarnings("serial")
 public class ListUpdateStudioForm extends ActionForm {
 
+	
 	private ArrayList<Studio> listStudio;
 	private String submit;
 	private String submitNumberPager;
@@ -31,7 +32,15 @@ public class ListUpdateStudioForm extends ActionForm {
 	private int totalRecord;
 	private int totalPage;
 	private String dataUpdate;
+	private int totalRecordDatabase;
 	
+	
+	public int getTotalRecordDatabase() {
+		return totalRecordDatabase;
+	}
+	public void setTotalRecordDatabase(int totalRecordDatabase) {
+		this.totalRecordDatabase = totalRecordDatabase;
+	}
 	public String getDataUpdate() {
 		return dataUpdate;
 	}
