@@ -44,6 +44,13 @@
 				studio.sysfi_data = $(sysfi_data[i]).val();
 				arrayStudio.push(studio);
 			}
+			for (var i=0; i<action.length; i++){
+				if($(action[i]).val()=="D"){
+					console.log("Deeeeeeeeeeeeeeelete");
+					confirm("あなたが削除しますか");
+					break;
+				}
+			}
 			var myJSON = JSON.stringify(arrayStudio);
 			console.log("JSON" + myJSON);
 			$.ajax({
@@ -241,7 +248,7 @@ $(document).ready(function(){
 			<html:form action="/update-list-studio.do" >
 			<html:hidden property="totalRecord" styleId="totalRecordHidden" ></html:hidden>
 			<html:hidden property="currentPage" styleId="currentPageHidden"></html:hidden> 
-				<div class="col-lg-12 btnGroup" style="height: 120px;">
+				<div class="col-lg-12 btnGroup" style="height: 170px;">
 					<div class="col-lg-2" style="margin-top: 15px;">区：(C.変更 D.削除)</div>
 					<div class="pull-right" style="margin-top: 15px;">
 						<input id="update" type="button" value="更新(U)" class="btna">
