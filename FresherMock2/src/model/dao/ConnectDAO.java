@@ -31,7 +31,6 @@ public class ConnectDAO {
 	 * mở kết nối database
 	 */
 	public void openConnection() throws SystemException, ProgramException {
-
 		try {
 			Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
 			String url = "jdbc:sqlserver://localhost;databaseName=FresherMock2";
@@ -40,7 +39,6 @@ public class ConnectDAO {
 
 			connect = DriverManager.getConnection(url, user, pass);
 			statement = connect.createStatement();
-			System.out.println("Kết nối thành công !");
 		} catch (SQLException e) {
 			throw new SystemException("Connection error");
 		} catch (ClassNotFoundException e) {
@@ -91,16 +89,4 @@ public class ConnectDAO {
 		return this.connect;
 	}
 
-	public static void main(String[] agrs) {
-		ConnectDAO con= new ConnectDAO();
-		try {
-			con.openConnection();
-		} catch (SystemException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (ProgramException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	}
 }

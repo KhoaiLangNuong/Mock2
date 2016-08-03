@@ -2,11 +2,7 @@ package model.dao;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.ArrayList;
-
-import common.ProgramException;
-import common.SystemException;
 import model.bean.Studio;
 
 /**
@@ -24,12 +20,16 @@ import model.bean.Studio;
  * 29/07/2016       	NguyetNT6       Create
  */
 public class StudioDAO extends ConnectDAO {
-
-	public boolean signUp(ArrayList<Studio> listStudio) throws SystemException, ProgramException {
+	
+	/**
+	 * sign up list data
+	 * @param listStudio
+	 * @return true/false
+	 */
+	public boolean signUp(ArrayList<Studio> listStudio) {
 
 		String sql1 = "INSERT INTO AUTSYSFI(SYSFI_KEY,SYSFI_DATA) VALUES(?,?)";
 		PreparedStatement pst1;
-
 		try {
 			openConnection();
 			pst1 = getConnect().prepareStatement(sql1);
@@ -41,17 +41,19 @@ public class StudioDAO extends ConnectDAO {
 			int[] a = pst1.executeBatch();
 			return (a != null ? true : false);
 
-		} catch (SQLException e) {
-			e.printStackTrace();
-			throw new SystemException("Error!");
-		} catch (NullPointerException e) {
-			e.printStackTrace();
-			throw new ProgramException("Error!");
-		} finally {
+		} catch (Exception e) {
+			return false;
+		} finally{
 			closeConnection();
 		}
 	}
 
+	
+	/**
+	 * check sysfiKey exist
+	 * @param sysfiKey
+	 * @return true/false
+	 */
 	public boolean checkKeyExist(String sysfiKey) {
 		try {
 			openConnection();
@@ -61,7 +63,7 @@ public class StudioDAO extends ConnectDAO {
 			ResultSet rs = pstmt.executeQuery();
 			return rs.next();
 		} catch (Exception e) {
-			e.printStackTrace();
+			
 		}
 		finally {
 			closeConnection();

@@ -18,6 +18,14 @@ Configuration 1.3//EN" "http://struts.apache.org/dtds/struts-config_1_3.dtd">
 			<forward name="addOK" path="/update-list-studio.do"></forward>
 			<forward name="addError" path="/addListStudio.jsp"></forward>
 		</action>
+		<action 
+			path="/search-list-studio"
+			name="listUpdateStudioForm"
+			scope="request"
+			type="action.EventSearchListStudioAction"
+			>
+			<forward name="searchOK" path="/updateListStudio.jsp"></forward>
+		</action>
 	</action-mappings>
 	<message-resources parameter="action.ApplicationResources" />
 

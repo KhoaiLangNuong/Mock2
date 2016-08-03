@@ -28,48 +28,9 @@ public class ListUpdateStudioBO {
 	public ListUpdateStudioBO(){
 		listUpdateStudioDAO= new ListUpdateStudioDAO();
 	}
-	public ArrayList<Studio> getListStudioAtPage(ArrayList<Studio> listStudio, int currentPage, int totalRecord) {
-		ArrayList<Studio> listStudioAtPage= new ArrayList<Studio>();
-		int length = 0;
-		int totalPage=getTotalPage(listStudio,totalRecord);
-		if(listStudio.size()==0){
-			return listStudioAtPage;
-		}
-		if(listStudio.size()%totalRecord==0){
-			length=currentPage*totalRecord;
-		}
-		else {
-			if(currentPage<totalPage){
-				length=currentPage*totalRecord;
-			}
-			else if(currentPage==totalPage){
-				length=(currentPage-1)*totalRecord+listStudio.size()%totalRecord;
-			}
-		}
-		System.out.println("totalPage "+totalPage );
-		System.out.println("totalRecord "+totalRecord);
-		System.out.println("currentPage "+currentPage);
-		System.out.println("length "+length);
-		for(int i=(currentPage-1)*totalRecord; i<length; i++){
-			listStudioAtPage.add(listStudio.get(i));
-		}
-		return listStudioAtPage;
-	}
+	
 	public ArrayList<Studio> getListStudio() {
 		return listUpdateStudioDAO.getListStudio();
-	}
-	public int getTotalPage(ArrayList<Studio> listStudio, int totalRecord) {
-		if(listStudio.size()==0){
-			return 0;
-		}
-		else{
-			if(listStudio.size()%totalRecord==0){
-				return listStudio.size()/totalRecord;
-			}
-			else {
-				return listStudio.size()/totalRecord+1;
-			}
-		}
 	}
 	public ArrayList<Studio> parseJsonToListStudio(JSONArray jsonArray) {
 		ArrayList<Studio> listStudioUpdate= new ArrayList<Studio>();
@@ -91,6 +52,5 @@ public class ListUpdateStudioBO {
 	}
 	public ArrayList<Studio> search(String contenSearch) {
 		return listUpdateStudioDAO.search(contenSearch);
-	}
-	
+	}	
 }

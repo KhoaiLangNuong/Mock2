@@ -2,8 +2,8 @@ package model.bo;
 
 import java.util.ArrayList;
 
+import common.BussinessException;
 import common.ProgramException;
-import common.SystemException;
 import model.bean.Studio;
 import model.dao.StudioDAO;
 
@@ -28,7 +28,7 @@ public class StudioBO {
 	public StudioBO(){
 	studioDAO = new StudioDAO();
 	}
-	public boolean signUp(ArrayList<Studio> listStudio) throws SystemException, ProgramException{
+	public boolean signUp(ArrayList<Studio> listStudio) throws BussinessException, ProgramException{
 		return studioDAO.signUp(listStudio);
 	}
 

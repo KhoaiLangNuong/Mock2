@@ -150,29 +150,29 @@ $(document).ready(function(){
 					 <strong id="yearID"></strong> 年 <strong id="monthID"></strong> 月 <strong id="dayID"></strong> 日
 				</div>
 			</div>
-			<html:form action="/update-list-studio.do" method="post">
-			<div class="col-lg-12 errorMessage" style="padding-top: 15px; display: none;">
-				<div class="row t-err" id="message-err" >
-					<p>
-						<img src="img/alert.png"
-							style="position: relative; width: 15px; height: 15px; top: -2px;" >
-						<span id="message"></span>
-					</p>
+			<html:form action="/search-list-studio.do" method="post">
+				<div class="col-lg-12 errorMessage" style="padding-top: 15px; display: none;">
+					<div class="row t-err" id="message-err" >
+						<p>
+							<img src="img/alert.png"
+								style="position: relative; width: 15px; height: 15px; top: -2px;" >
+							<span id="message"></span>
+						</p>
+					</div>
+				</div>	
+				<div class="col-lg-12 search">
+					<input type="text"
+						style="color: white; background-color: #1A75C6; border: 2px solid #8DBBD6;width: 120px;"
+						value="メーカー・コード" disabled="disabled" > 
+						<html:text property="contentSearch" style="border: 1px solid #8DBBD6;width: 45px;" maxlength="2"></html:text>
 				</div>
-			</div>	
-			<div class="col-lg-12 search">
-				<input type="text"
-					style="color: white; background-color: #1A75C6; border: 2px solid #8DBBD6;width: 120px;"
-					value="メーカー・コード" disabled="disabled" > 
-					<html:text property="contentSearch" style="border: 1px solid #8DBBD6;width: 45px;" maxlength="2"></html:text>
-			</div>
-			<div class="col-lg-12 btnGroup ">
-				<div class="pull-right" style="margin-top: 15px;">
-					<html:submit property="submit" styleClass="btna">検索(S)</html:submit>
-					<a href="screenBack.jsp"><input type="button" value="キャンセル( C )" class="btna"></a>
-					<html:link action="/add-list-studio.do"><input type="button" class="btna" value="新規登録(N)"></html:link>
+				<div class="col-lg-12 btnGroup ">
+					<div class="pull-right" style="margin-top: 15px;">
+						<html:submit property="submit" styleClass="btna">検索(S)</html:submit>
+						<a href="screenBack.jsp"><input type="button" value="キャンセル( C )" class="btna"></a>
+						<html:link action="/add-list-studio.do"><input type="button" class="btna" value="新規登録(N)"></html:link>
+					</div>
 				</div>
-			</div>
 			</html:form>
 			<div class="col-lg-12" id="page">
 				<div class="panel-heading">
@@ -208,8 +208,8 @@ $(document).ready(function(){
 									style="color: white; margin-left: 20px;"> 表示件数 </label>
 								<bean:define id="totalRecordDatabase" property="totalRecordDatabase" name="listUpdateStudioForm"></bean:define>
 								<html:select styleId="totalRecord" property="totalRecord" style="margin-left:20px;">
-									<html:option value="5">5</html:option>
 									<html:option value="10">10</html:option>
+									<html:option value="20">20</html:option>
 									<html:option value="${totalRecordDatabase }">All</html:option>
 								</html:select>
 								<html:submit property="submit" styleClass="btna"

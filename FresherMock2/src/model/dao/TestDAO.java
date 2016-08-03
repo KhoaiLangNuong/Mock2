@@ -4,7 +4,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 
-
 import model.bean.Studio;
 
 /**
@@ -21,7 +20,7 @@ import model.bean.Studio;
  * -----------------------------------------------------------------------
  * 29/07/2016       	NguyetNT6       Create
  */
-public class ListUpdateStudioDAO extends ConnectDAO {
+public class TestDAO extends ConnectDAO {
 
 	public ArrayList<Studio> getListStudio() {
 		try {
@@ -46,58 +45,69 @@ public class ListUpdateStudioDAO extends ConnectDAO {
 		}
 	}
 
-	/**
-	 * update list data
-	 * @param listStudioUpdate
-	 * @return true/false
-	 */
 	public boolean updateData(ArrayList<Studio> listStudioUpdate) {
 		try {
 			openConnection();
 			String sqlUpdate = "update AUTSYSFI set sysfi_data= ? where sysfi_key = ?";
+			int countUpdate = 0;
 			PreparedStatement pstmtUpdate = getPreparedStatement(sqlUpdate);
 			for (int i = 0; i < listStudioUpdate.size(); i++) {
 				if ("C".equals(listStudioUpdate.get(i).getAction())) {
+					countUpdate ++;
 					pstmtUpdate.setString(1, listStudioUpdate.get(i).getSysfiData());
 					pstmtUpdate.setString(2, listStudioUpdate.get(i).getSysfiKey());
 					pstmtUpdate.addBatch();
 				}
+
 			}
-			int[] a=pstmtUpdate.executeBatch();
-			boolean resultUpdate=true;
-			for(int i=0; i<a.length; i++){
-				if(a[i] ==0){
-					resultUpdate=false;
-					break;
+			int [] result = pstmtUpdate.executeBatch();
+			//dem so cau lenh that bai
+			int countRowUpdate = 0; 
+			for(int i=0; i<result.length; i++){
+				if(result[i] == 0){
+					countRowUpdate ++;
 				}
 			}
-			return resultUpdate;
+			if(countRowUpdate == countUpdate){ //so cau lenh dc cap nhat
+				return false;
+			}else{
+				return true;
+			}
+			
+				
 		} catch (Exception e) {
-			e.printStackTrace();
 			return false;
 		} finally {
 			closeConnection();
 		}
 	}
-   
-	/**
-	 * delete list data
-	 * @param listStudioDelete
-	 * @return true/false
-	 */
+
 	public boolean deleteData(ArrayList<Studio> listStudioDelete) {
 		try {
 			openConnection();
 			String sqlDelete = "delete from AUTSYSFI where sysfi_key= ?";
 			PreparedStatement pstmtDelete = getPreparedStatement(sqlDelete);
+			int countRowDelete = 0;
 			for (int i = 0; i < listStudioDelete.size(); i++) {
 				if ("D".equals(listStudioDelete.get(i).getAction())) {
+					countRowDelete ++;
 					pstmtDelete.setString(1, listStudioDelete.get(i).getSysfiKey());
 					pstmtDelete.addBatch();
 				}
 			}
-			pstmtDelete.executeBatch();
-			return true;
+			int [] result = pstmtDelete.executeBatch();
+			//dem so cau lenh that bai
+			int countRowUpdate = 0; 
+			for(int i=0; i<result.length; i++){
+				if(result[i] == 0){
+					countRowUpdate ++;
+				}
+			}
+			if(countRowUpdate == countRowDelete){ //so cau lenh dc cap nhat
+				return false;
+			}else{
+				return true;
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 			return false;
@@ -106,12 +116,7 @@ public class ListUpdateStudioDAO extends ConnectDAO {
 		}
 
 	}
-   
-	/**
-	 * search data 
-	 * @param sysfiKey
-	 * @return true/false
-	 */
+
 	public ArrayList<Studio> search(String sysfiKey) {
 		
 		ArrayList<Studio> listStudio = new ArrayList<Studio>();
@@ -138,25 +143,19 @@ public class ListUpdateStudioDAO extends ConnectDAO {
 			closeConnection();
 		}
 	}
-	
-	
-	/**
-	 * delete all data
-	 */
-	public void  deleteAllData() {
-		try {
-			openConnection();
-			String sql = "DELETE AUTSYSFI ";
-			
-			PreparedStatement pstmtDelete = getPreparedStatement(sql);
-			pstmtDelete.execute();
-		} catch (Exception e) {
-			e.printStackTrace();
-		} finally {
-			closeConnection();
-		}
+public void  deleteAllData() {
+	try {
+		openConnection();
+		String sql = "DELETE AUTSYSFI ";
+		
+		PreparedStatement pstmtDelete = getPreparedStatement(sql);
+		pstmtDelete.execute();
+	} catch (Exception e) {
+		e.printStackTrace();
+	} finally {
+		closeConnection();
+	}
 
-			
-		}
-	
+		
+	}
 }
