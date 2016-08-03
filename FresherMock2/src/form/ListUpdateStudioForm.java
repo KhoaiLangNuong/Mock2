@@ -121,9 +121,7 @@ public class ListUpdateStudioForm extends ActionForm {
 			// valid space
 			if (listStudio.get(i).getSysfiData().length() > 0
 					&& Validations.validateSpace(listStudio.get(i).getSysfiData())) {
-				checkValid = false;
-				jsonObject.put("message", jsonObject.get("message").toString() + " メーカー名 : 全体のスペースを入力しないでください");
-				jsonObject.put("error_type", "space");
+				listStudio.get(i).setSysfiData(listStudio.get(i).getSysfiData().trim());
 			} else {
 				listStudio.get(i).setSysfiData(listStudio.get(i).getSysfiData().trim());
 			}

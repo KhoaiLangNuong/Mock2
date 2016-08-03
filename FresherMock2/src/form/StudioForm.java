@@ -99,12 +99,12 @@ public class StudioForm extends ActionForm {
 				jsonObject.put("message","メーカー・コード : 特殊文字を入力しません");
 			}
 			
-			//check valid space
-			if(Validations.validateSpace(listStudio.get(i).getSysfiKey())){
-				checkValid = false;
-				jsonObject.put("message","メーカー・コード : 全体のスペースを入力しないでください");
-			}
-			
+//			//check valid space
+//			if(Validations.validateSpace(listStudio.get(i).getSysfiKey())){
+//				checkValid = false;
+//				jsonObject.put("message","メーカー・コード : 全体のスペースを入力しないでください");
+//			}
+//			
 			//check valid null
 			if(Validations.validateNull(listStudio.get(i).getSysfiKey())){
 				checkValid = false;
@@ -144,20 +144,20 @@ public class StudioForm extends ActionForm {
 					jsonObject.put("message",jsonObject.get("message").toString()+ ", メーカー名 : 特殊文字を入力しません ");
 				}
 			}
-			
-			//check valid space
-			if(listStudio.get(i).getSysfiData().length()>0 && Validations.validateSpace(listStudio.get(i).getSysfiData())){
-				checkValid=false;
-				if("".equals(jsonObject.get("message").toString())){
-					jsonObject.put("message",jsonObject.get("message").toString()+ ", メーカー名 : 全体のスペースを入力しないでください");
-				}
-				else{
-					jsonObject.put("message",jsonObject.get("message").toString()+ ", メーカー名 : 全体のスペースを入力しないでください");
-				}				
-			}
-			else {
-				listStudio.get(i).setSysfiData(listStudio.get(i).getSysfiData());
-			}
+//			
+//			//check valid space
+//			if(listStudio.get(i).getSysfiData().length()>0 && Validations.validateSpace(listStudio.get(i).getSysfiData())){
+//				checkValid=false;
+//				if("".equals(jsonObject.get("message").toString())){
+//					jsonObject.put("message",jsonObject.get("message").toString()+ ", メーカー名 : 全体のスペースを入力しないでください");
+//				}
+//				else{
+//					jsonObject.put("message",jsonObject.get("message").toString()+ ", メーカー名 : 全体のスペースを入力しないでください");
+//				}				
+//			}
+//			else {
+//				listStudio.get(i).setSysfiData(listStudio.get(i).getSysfiData());
+//			}
 			
 			//check valid true or false
 			if(!checkValid){
